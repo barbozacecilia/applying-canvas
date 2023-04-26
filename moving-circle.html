@@ -1,0 +1,36 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+	var screen = document.querySelector("canvas");
+	var pincel = screen.getContext("2d");
+	pincel.fillStyle = "lightgrey";
+	pincel.fillRect(0,0, 600, 400);
+
+	function circle(x,y,radio){
+		pincel.fillStyle = "pink";
+		pincel.beginPath();
+		pincel.arc(x,y,radio,0,2*Math.PI);
+		pincel.fill();
+	}
+
+	function clearScreen(){
+		pincel.clearRect(0,0,600,400)
+	}
+
+	var x = 0;
+	var move = 1;
+
+	function updateScreen (){
+		clearScreen();
+		if(x > 600){
+			move = -1;
+		} else if (x < 0){
+			move =1;
+		}
+		circle(x,20,10);
+		x = x + move;
+	}
+
+	setInterval(updateScreen,10);
+
+</script>

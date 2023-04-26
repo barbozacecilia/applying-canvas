@@ -1,0 +1,63 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+	var screen = document.querySelector("canvas");
+	var pincel = screen.getContext("2d");
+	pincel.fillStyle = "lightgrey";
+	pincel.fillRect(0,0, 600, 400);
+
+	function circle(x,y,radio,color){
+		pincel.fillStyle = color;
+		pincel.beginPath();
+		pincel.arc(x,y,radio,0,2*Math.PI);
+		pincel.fill();
+	}
+
+	function clearScreen(){
+		pincel.clearRect(0,0,600,400)
+	}
+
+	var x = 0;
+	var radio = 10;
+	var xRandom;
+	var yRandom;
+
+	function setCircle(x,y){
+		circle(x,y, radio +20, "red" )
+		circle(x,y, radio +10, "white" )
+		circle(x,y, radio, "red" )
+	}
+
+	function setPositionCircle(max){
+		return Math.floor(Math.random()*max);
+	}
+
+	
+
+		function updateScreen (){
+		clearScreen();
+		xRandom = setPositionCircle(600);
+		yRandom = setPositionCircle(400);
+		setCircle(xRandom, yRandom);
+		x++
+	}
+
+
+	setInterval(updateScreen,1000);
+
+	function shoot(event){
+		var x = event.pageX - screen.offsetLeft;
+		var y = event.pageY - screen.offsetTop;
+
+		if(( x < xRandom + radio)&&
+			( x > xRandom - radio)&&
+			( y < yRandom + radio)&&
+			( y > yRandom - radio)){
+			alert("Le diste!")
+		}else {
+			alert("Intenta de nuevo")
+		}
+	}
+	screen.onclick = shoot;
+
+</script>

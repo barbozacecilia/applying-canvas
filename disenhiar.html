@@ -1,0 +1,124 @@
+<canvas width="600" height="400"></canvas>
+
+<script>
+    var screen = document.querySelector('canvas');
+    var pincel = screen.getContext('2d');
+
+    pincel.fillStyle = 'skyblue';
+    pincel.fillRect(0, 0, 600, 400);
+
+    var xRed = 0;
+    var xYellow = 50;
+    var xBlue = 100;
+    var xGreen = 150;
+    var xSkyblue = 200;
+
+    var ySquare = 0;
+    var shapeSquare =50;
+
+    var currentColor= "pink";
+
+    var draw = false;
+
+    function drawCircle(x,y) {
+
+        if(draw) {
+            pincel.fillStyle = currentColor;
+            pincel.beginPath();
+            pincel.arc(x, y, 5, 0, 2*Math.PI);
+            pincel.fill();
+        }
+
+    }
+
+    
+//Function to draw each of the squares of the palette
+    function square(x,y,size, color){
+
+        pincel.fillStyle = color;
+        pincel.fillRect (x,y,size,size);
+        pincel.fill();
+        pincel.strokeRect(200, 0, 50, 50);
+
+    }
+//Function to draw the color palette
+    function drawColorPalette(){
+        square(xGreen, ySquare, shapeSquare, "green");
+        square(xBlue, ySquare, shapeSquare, "blue");
+        square(xYellow, ySquare, shapeSquare, "yellow");
+        square(xRed, ySquare, shapeSquare, "red")
+        square(xSkyblue, ySquare, shapeSquare, "skyblue")
+    }
+
+    function chooseColor(event){
+        var x = event.pageX - screen.offsetLeft;
+        var y = event.pageY - screen.offsetTop;
+
+        if (y> ySquare && y < (ySquare+ shapeSquare)){
+            if (x> xRed && x < (xRed+shapeSquare)){
+                currentColor= "red";
+                console.log(currentColor);
+            } else if (x > xYellow && x < (xYellow+shapeSquare)){
+                currentColor= "yellow";
+                console.log(currentColor);
+            } else if (x >xBlue && x <(xBlue+shapeSquare)){
+                currentColor= "blue";
+                console.log(currentColor);
+            } else if (x >xGreen && x <(xGreen+shapeSquare)){
+                currentColor= "green";
+                console.log(currentColor);
+            } else if (x > xSkyblue && x < (xSkyblue+shapeSquare)){
+                currentColor ="skyblue";
+                console.log(currentColor)
+            }
+
+        }
+    }
+
+ 
+
+    function drawingArea (xArea,yArea){
+        if (
+            (xArea >= 0 && (xArea < (5*shapeSquare+5)) &&
+            (yArea >=0 && yArea< (shapeSquare+5))))
+            {
+                return false;
+            } else{
+                return true;
+            }
+        }
+
+    function getMouseMovement (event){
+        var x = event.pageX - screen.offsetLeft;
+        var y = event.pageY - screen.offsetTop;
+
+        if(drawingArea(x,y)){
+            drawCircle(x,y);
+        }
+    }
+
+
+    
+    function enableDraw() {
+
+        draw = true;
+    }
+
+    function disableDraw() {
+
+        draw = false;
+    }
+
+    screen.onmousemove = drawCircle;
+
+    screen.onmousedown = enableDraw;
+
+    screen.onmouseup = disableDraw;
+
+    screen.onmousemove = getMouseMovement;
+
+    screen.onclick = chooseColor;
+
+    drawColorPalette();
+
+</script>
